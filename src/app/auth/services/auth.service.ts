@@ -24,12 +24,14 @@ export class AuthService {
 
   //cuando la persona entre por este metodo va a volver a cargar toda la información del metodo login
   checkAuthentication(): Observable<boolean> {
-    if (!localStorage.getItem('token')) return of(false);
+    if (!localStorage.getItem('token')) {
+      return of<boolean>(false);
+    }
     const token = localStorage.getItem('token');
     return this.http.get<User>(`${this.baseUrl}/users/1`).pipe(
       tap((user) => (this.user = user)),
       map((user) => !!user),
-      catchError((error) => of(false))
+      catchError((error) => of<boolean>(false))
     );
   }
 
